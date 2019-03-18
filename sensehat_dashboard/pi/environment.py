@@ -42,7 +42,7 @@ firebase_admin.initialize_app(cred, {
 })
 
 
-ref = db.reference('/')
+ref = db.reference('/environment/')
 
 def updateEnvironmentData():
     environment_obj = {
