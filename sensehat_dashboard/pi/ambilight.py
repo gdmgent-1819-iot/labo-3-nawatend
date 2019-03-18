@@ -34,7 +34,7 @@ def index():
     
     
 # Fetch the service account key JSON file contents
-cred = credentials.Certificate('./credentials.json')
+cred = credentials.Certificate('./credential.json')
 
 # Initialize the app with a service account, granting admin privileges
 firebase_admin.initialize_app(cred, {
