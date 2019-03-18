@@ -34,7 +34,7 @@ def index():
     
     
 # Fetch the service account key JSON file contents
-cred = credentials.Certificate('./credential.json')
+cred = credentials.Certificate('./credentials.json')
 
 # Initialize the app with a service account, granting admin privileges
 firebase_admin.initialize_app(cred, {
@@ -47,28 +47,31 @@ ref = db.reference('/ambilight/')
 
 
 #Function to send colors to sensehat
-def setColor(color_data):
-	if color_data['state'] == 'on':
-		color = color_data['value'].lstrip('#')
-		rgb = tuple(int(color[i:i+2], 16) for i in (0, 2 ,4))
-		for x in range(0,8):
-			for y in range(0,8):
-				sense.set_pixel(x, y, rgb)
-	else:
-		for x in range(0,8):
-			for y in range(0,8):
-				sense.set_pixel(x, y, [0, 0, 0])
+def setColor(rgbColor):
+	
+	for x in range(0,8):
+		for y in range(0,8):
+			sense.set_pixel(x, y, rgbColor)
+	
 				
-				
+#hex color to rgb
+hex2rgb = lambda hx: (int(hx[1:3],16),int(hx[3:5],16),int(hx[5:7],16))
+
+			
 # read color from firebase
 def readAmbilightData():
     
     # get color 
     # set sense color to that color
     # eazy pizzy
+    rgbColor = hex2rgb(ref.get()["color"])	
+    print(rgbColor)
+    setColor(rgbColor)
 
-    
-    
+
+while True:    
+	readAmbilightData()
+ 
 if __name__ == '__main__':
-    app.run(host='192.168.1.27', port=8082, debug=True)    
+    app.run(host='192.168.1.27', port=8082, debug=True)   
 
