@@ -16,7 +16,41 @@
 <body>
     <div class="wrapper">
         <div class="ambilight__container">
-            <div id="ambilight_light" class="ambilight__light"></div>
+            <div id="ambilight_light" class="ambilight__light" style="background-color: {{ color['value'] }}"></div>
+
+            <input type="color" name="color" id="colorpicker" placeholder="color">
+            <input type="submit" id="sendcolor" value="Send Color">
+
+        </div>
+
+        <div class="environment__container">
+            <h3>LIVE . . .</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Label</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    <tr>
+                        <td>Temperature</td>
+                        <td id="temp" value='eee'></td>
+                    </tr>
+
+                    <tr>
+                        <td>Humidity</td>
+                        <td id="humi"></td>
+                    </tr>
+
+                    <tr>
+                        <td>Pressure</td>
+                        <td id="pres"></td>
+                    </tr>
+
+                </tbody>
+            </table>
         </div>
     </div>
 </body>

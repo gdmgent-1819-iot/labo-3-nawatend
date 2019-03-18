@@ -13,32 +13,64 @@ firebase.initializeApp(config);
 
 
 
+// elements to get value from firebase
+let temp = document.getElementById('temp')
+let humi = document.getElementById('humi')
+let pres = document.getElementById('pres')
 
-function readEnvironment() {
-    let environmentData = firebase.database().ref("/currentEnvironment/");
+//colorPicker element
+let colorPicker = document.getElementById('colorpicker')
+let sendColor = document.getElementById('sendcolor')
+
+const readEnvironment = () => {
+    let environmentData = firebase.database().ref("/environment/");
 
     environmentData.on("value", function (snapshot) {
         // snapshot.forEach(function (data) {
         //     console.log(data.val());
         // });
-        console.log(snapshot.val())
+        temp.innerText = snapshot.val()['temperature'].value + ' ' + snapshot.val()['temperature'].unit
+        humi.innerText = snapshot.val()['humidity'].value + ' ' + snapshot.val()['humidity'].unit
+        pres.innerText = snapshot.val()['pressure'].value + ' ' + snapshot.val()['pressure'].unit
+
+        console.log(snapshot.val()['pressure'].value + ' ' + snapshot.val()['pressure'].unit)
+
     });
 }
 
+const sendColorToFirebase = () => {
+
+    let environmentData = firebase.database().ref("/ambilight/");
+
+    let color_obj = {
+        color: colorPicker.value,
+    }
+    var updates = {}
+
+    updates["/ambilight/"] = color_obj;
+
+    firebase
+        .database()
+        .ref()
+        .update(updates);
+}
 // A post entry
-var postData = {
-    temp: '45'
-};
+
 
 // Write the new post's data simultaneously in the posts list and the user's post list
-var updates = {}
+// var updates = {}
 
-updates["/currentEnvironment/"] = postData;
+// updates["/currentEnvironment/"] = postData;
 
-firebase
-    .database()
-    .ref()
-    .update(updates);
+// firebase
+//     .database()
+//     .ref()
+//     .update(updates);
 
 
 readEnvironment()
+
+sendColor.addEventListener('click', () => {
+    sendColorToFirebase()
+
+})
