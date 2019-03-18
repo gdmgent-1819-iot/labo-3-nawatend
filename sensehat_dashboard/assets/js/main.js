@@ -21,7 +21,7 @@ let pres = document.getElementById('pres')
 //colorPicker element
 let colorPicker = document.getElementById('colorpicker')
 let sendColor = document.getElementById('sendcolor')
-
+let colorDiv = document.getElementById('ambilight_light')
 const readEnvironment = () => {
     let environmentData = firebase.database().ref("/environment/");
 
@@ -53,6 +53,8 @@ const sendColorToFirebase = () => {
         .database()
         .ref()
         .update(updates);
+
+    colorDiv.style.backgroundColor = colorPicker.value
 }
 // A post entry
 
